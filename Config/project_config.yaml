@@ -1,0 +1,28 @@
+﻿project:
+  name: "ML-Agents Training Prediction"
+  version: "1.0.0"
+  description: "Predicting properties of deep RL training runs in Unity ML-Agents"
+
+data_collection:
+  output_dir: "Data/RawData"
+  batch_size: 32
+  max_training_steps: 500000
+
+ml_models:
+  output_dir: "Models"
+  test_split: 0.2
+  validation_split: 0.1
+  random_seed: 42
+
+environments:
+  - "3DBall"
+  - "GridWorld" 
+  - "Hallway"
+  - "PushBlock"
+  - "Pyramids"
+
+hardware_tracking:
+  - "ram_usage"
+  - "cpu_usage"
+  - "training_time"
+  - "gpu_usage"
