@@ -58,6 +58,16 @@ pip install -r requirements.txt
 - Install Unity Hub and Unity Editor 2022.3.4f1.
 - Ensure Visual Studio 2022 with the workloads listed above is installed.
 
+## Installing Unity
+https://unity.com/download
+Depending on your system, click the correct hyperlink for your system.
+Follow the instruction on the installation wizard.
+Click on the installs tab.
+Click on the Install Editor button.
+If the 2022.3.4f1 is not shown, click on the Archive rider.
+Click on the download archive hyperlink.
+Select the LTS and 2022 option and search for the 2022.3.4f1. and click install.
+
 ## Opening the Unity project
 Open the Unity project at:
 - `ml-agents-toolkit/Project` (preferred; aligns with local ML-Agents packages)
