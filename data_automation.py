@@ -19,6 +19,8 @@ import os
 import sys
 import platform
 import subprocess
+import yaml
+import itertools  # used inside parse; safe to import local here
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
@@ -303,7 +305,6 @@ def load_hyperparameters_from_config(results_dir: str) -> Dict[str, Any]:
         return {}
     
     try:
-        import yaml
         with open(config_path, 'r') as f:
             config = yaml.safe_load(f)
         
@@ -415,7 +416,7 @@ def build_row_from_json(filepath: str, data: Dict[str, Any]) -> list:
     cmdline = meta.get("command_line_arguments") or meta.get("command_line") or meta.get("cmd")
     if cmdline and isinstance(cmdline, str):
         try:
-            import itertools  # used inside parse; safe to import local here
+            
             parsed_args = parse_command_line_args_string(cmdline)
         except Exception:
             parsed_args = {}
