@@ -141,6 +141,18 @@ def run_training(run_seed: int, options: RunOptions, num_areas: int) -> None:
         write_timing_tree(run_logs_dir)
         write_training_status(run_logs_dir)
 
+        print(">>> Running post-training automation script...")
+        try:
+            import subprocess
+            import sys
+            auto_script = os.path.join(os.getcwd(), "auto_setup.py")
+            if os.path.exists(auto_script):
+                subprocess.run([sys.executable, auto_script], check=True)
+            else:
+                print(f"Warning: {auto_script} not found. Skipping post-training automation.")
+        except Exception as e:
+            logger.warning(f"Post-training automation script failed with exception: {e}")
+
 
 def write_run_options(output_dir: str, run_options: RunOptions) -> None:
     run_options_path = os.path.join(output_dir, "configuration.yaml")
@@ -257,15 +269,33 @@ def run_cli(options: RunOptions) -> None:
     add_timer_metadata("pytorch_version", torch_utils.torch.__version__)
     add_timer_metadata("numpy_version", np.__version__)
 
+    run_id = options.checkpoint_settings.run_id
+    csv_file = os.path.join("Data", "consolidated_runs.csv")
+
+    if os.path.exists(csv_file):
+        try:
+            import csv
+            with open(csv_file, mode='r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    if row['run_id'] == run_id:
+                        logger.error(f"Error: Run ID '{run_id}' already exists in {csv_file}. Please choose a different run ID.")
+                        sys.exit(1)
+        except Exception as e:
+            logger.warning(f"Could not read {csv_file} to check for duplicate run IDs: {e}")
+
     if options.env_settings.seed == -1:
         run_seed = np.random.randint(0, 10000)
         logger.debug(f"run_seed set to {run_seed}")
     run_training(run_seed, options, num_areas)
 
-
 def main():
-    run_cli(parse_command_line())
+    import subprocess
+    import sys
+    import os
 
+    print(">>> Starting ML-Agents training session...")
+    run_cli(parse_command_line())
 
 # For python debugger to directly run this script
 if __name__ == "__main__":
