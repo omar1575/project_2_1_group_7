@@ -33,7 +33,7 @@ except Exception:
 
 # --- Configuration ---
 OUTPUT_DIR = "Data"
-OUTPUT_FILE = os.path.join(OUTPUT_DIR, "omar.csv")
+OUTPUT_FILE = os.path.join(OUTPUT_DIR, "max.csv")
 
 # Exact headers (in the exact order required)
 HEADERS = [
