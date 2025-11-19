@@ -1,4 +1,3 @@
-
 """
 data_automation.py
 
@@ -13,6 +12,7 @@ This script follows the explicit headers list (24 columns), including:
 Usage:
     python data_automation.py /path/to/mlagents_timer.json
 """
+
 from __future__ import annotations
 import json
 import csv
@@ -33,7 +33,11 @@ except Exception:
 
 # --- Configuration ---
 OUTPUT_DIR = "Data"
+<<<<<<< Updated upstream
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "max.csv")
+=======
+OUTPUT_FILE = os.path.join(OUTPUT_DIR, "robert.csv")
+>>>>>>> Stashed changes
 
 # Exact headers (in the exact order required)
 HEADERS = [
@@ -65,23 +69,25 @@ HEADERS = [
 
 # ---------------- Placeholder / system query helpers ----------------
 
+
 def get_run_id_from_path(path: str) -> str:
     """Derive run_id from file path: extract from results/<run_id>/run_logs/timers.json"""
     # Try to extract run_id from path structure
     path_parts = os.path.normpath(path).split(os.sep)
     try:
         # Look for 'results' in path and get the next directory
-        if 'results' in path_parts:
-            results_idx = path_parts.index('results')
+        if "results" in path_parts:
+            results_idx = path_parts.index("results")
             if results_idx + 1 < len(path_parts):
                 return path_parts[results_idx + 1]
     except Exception:
         pass
-    
+
     # Fallback: use basename without extension
     base = os.path.basename(path)
     run_id = os.path.splitext(base)[0]
     return run_id
+
 
 def get_cpu_model(json_meta: Dict[str, Any]) -> str:
     """Attempt to get CPU model from metadata; else query system or fallback."""
@@ -109,6 +115,7 @@ def get_cpu_model(json_meta: Dict[str, Any]) -> str:
         pass
     return "Unknown CPU Model"
 
+
 def get_cpu_cores(json_meta: Dict[str, Any]) -> str:
     """Return number of physical cores if available, else logical count, else Unknown."""
     for key in ("cpu_cores", "cores", "physical_cores"):
@@ -127,6 +134,7 @@ def get_cpu_cores(json_meta: Dict[str, Any]) -> str:
         pass
     return "Unknown"
 
+
 def get_cpu_freq(json_meta: Dict[str, Any]) -> str:
     """Return CPU frequency in MHz if available or detectable."""
     for key in ("cpu_freq_mhz", "cpu_frequency", "cpu_freq"):
@@ -143,6 +151,7 @@ def get_cpu_freq(json_meta: Dict[str, Any]) -> str:
         pass
     # platform won't give freq generally; fallback
     return "Unknown"
+
 
 def get_total_ram_gb(json_meta: Dict[str, Any]) -> str:
     """Return total RAM in GB (rounded to 2 decimals) from metadata or system query."""
@@ -161,6 +170,7 @@ def get_total_ram_gb(json_meta: Dict[str, Any]) -> str:
         pass
     return "Unknown"
 
+
 def get_gpu_model(json_meta: Dict[str, Any]) -> str:
     """Attempt to obtain GPU model. Try metadata, GPUtil, nvidia-smi, or fallback."""
     for key in ("gpu_model", "gpu", "GPU"):
@@ -170,6 +180,7 @@ def get_gpu_model(json_meta: Dict[str, Any]) -> str:
     # Try GPUtil if available
     try:
         import GPUtil  # type: ignore
+
         gpus = GPUtil.getGPUs()
         if gpus:
             names = ", ".join(g.name for g in gpus)
@@ -178,13 +189,18 @@ def get_gpu_model(json_meta: Dict[str, Any]) -> str:
         pass
     # Try nvidia-smi (Linux/Windows if NVIDIA tools installed)
     try:
-        out = subprocess.check_output(["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"], stderr=subprocess.DEVNULL, text=True)
+        out = subprocess.check_output(
+            ["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"],
+            stderr=subprocess.DEVNULL,
+            text=True,
+        )
         names = ",".join([line.strip() for line in out.splitlines() if line.strip()])
         if names:
             return names
     except Exception:
         pass
     return "Unknown GPU"
+
 
 def get_operating_system(json_meta: Dict[str, Any]) -> str:
     for key in ("os", "operating_system", "operating_system_name"):
@@ -196,7 +212,9 @@ def get_operating_system(json_meta: Dict[str, Any]) -> str:
     except Exception:
         return "Unknown OS"
 
+
 # ---------------- Command-line args parsing from metadata ----------------
+
 
 def parse_command_line_args_string(cmdline: str) -> Dict[str, Any]:
     """
@@ -205,6 +223,7 @@ def parse_command_line_args_string(cmdline: str) -> Dict[str, Any]:
     Returns a dict of found parameters (keys normalized).
     """
     import shlex
+
     parsed: Dict[str, Any] = {}
     if not cmdline:
         return parsed
@@ -237,6 +256,7 @@ def parse_command_line_args_string(cmdline: str) -> Dict[str, Any]:
                 parsed[key] = True
     return parsed
 
+
 def try_cast_number(val: Any) -> Any:
     """If val looks like int or float, cast it, else return original string."""
     if isinstance(val, (int, float)):
@@ -256,7 +276,9 @@ def try_cast_number(val: Any) -> Any:
             return False
         return s
 
+
 # ---------------- Main extraction / consolidation logic ----------------
+
 
 def extract_gauge_value(gauges: Dict[str, Any], key: str) -> Optional[float]:
     """
@@ -293,61 +315,68 @@ def extract_gauge_value(gauges: Dict[str, Any], key: str) -> Optional[float]:
                     continue
         return None
 
+
 def safe_get_meta(meta: Dict[str, Any], keys):
     for key in keys:
         if key in meta:
             return meta[key]
     return None
 
+
 def load_hyperparameters_from_config(results_dir: str) -> Dict[str, Any]:
     """Load hyperparameters from configuration.yaml in the results directory."""
     config_path = os.path.join(results_dir, "configuration.yaml")
     if not os.path.exists(config_path):
         return {}
-    
+
     try:
-        with open(config_path, 'r') as f:
+        with open(config_path, "r") as f:
             config = yaml.safe_load(f)
-        
+
         # Extract hyperparameters from the config structure
         hyperparams = {}
-        
+
         # Get behaviors section (usually has the brain name like "3DBall")
-        behaviors = config.get('behaviors', {})
+        behaviors = config.get("behaviors", {})
         if behaviors:
             # Get first behavior's settings
             brain_name = list(behaviors.keys())[0]
             brain_config = behaviors[brain_name]
-            
+
             # Extract values
-            trainer_type = brain_config.get('trainer_type', 'Unknown')
-            hyperparams['DRL Algorithm Used'] = trainer_type.upper() if trainer_type else 'Unknown'
-            
-            hp = brain_config.get('hyperparameters', {})
-            hyperparams['batch_size'] = hp.get('batch_size', '')
-            hyperparams['buffer_size'] = hp.get('buffer_size', '')
-            hyperparams['learning_rate'] = hp.get('learning_rate', '')
-            hyperparams['beta'] = hp.get('beta', '')
-            hyperparams['epsilon'] = hp.get('epsilon', '')
-            hyperparams['lambda'] = hp.get('lambd', '')  # Note: 'lambd' not 'lambda' in config
-            hyperparams['num_epoch'] = hp.get('num_epoch', '')
-            
-            network = brain_config.get('network_settings', {})
-            hyperparams['normalize'] = network.get('normalize', '')
-            hyperparams['hidden_units'] = network.get('hidden_units', '')
-            hyperparams['num_layers'] = network.get('num_layers', '')
-            
-            reward_signals = brain_config.get('reward_signals', {})
-            extrinsic = reward_signals.get('extrinsic', {})
-            hyperparams['gamma'] = extrinsic.get('gamma', '')
-            
-            hyperparams['max_steps'] = brain_config.get('max_steps', '')
-            hyperparams['time_horizon'] = brain_config.get('time_horizon', '')
-        
+            trainer_type = brain_config.get("trainer_type", "Unknown")
+            hyperparams["DRL Algorithm Used"] = (
+                trainer_type.upper() if trainer_type else "Unknown"
+            )
+
+            hp = brain_config.get("hyperparameters", {})
+            hyperparams["batch_size"] = hp.get("batch_size", "")
+            hyperparams["buffer_size"] = hp.get("buffer_size", "")
+            hyperparams["learning_rate"] = hp.get("learning_rate", "")
+            hyperparams["beta"] = hp.get("beta", "")
+            hyperparams["epsilon"] = hp.get("epsilon", "")
+            hyperparams["lambda"] = hp.get(
+                "lambd", ""
+            )  # Note: 'lambd' not 'lambda' in config
+            hyperparams["num_epoch"] = hp.get("num_epoch", "")
+
+            network = brain_config.get("network_settings", {})
+            hyperparams["normalize"] = network.get("normalize", "")
+            hyperparams["hidden_units"] = network.get("hidden_units", "")
+            hyperparams["num_layers"] = network.get("num_layers", "")
+
+            reward_signals = brain_config.get("reward_signals", {})
+            extrinsic = reward_signals.get("extrinsic", {})
+            hyperparams["gamma"] = extrinsic.get("gamma", "")
+
+            hyperparams["max_steps"] = brain_config.get("max_steps", "")
+            hyperparams["time_horizon"] = brain_config.get("time_horizon", "")
+
         return hyperparams
     except Exception as e:
         print(f"Warning: Could not load configuration.yaml: {e}")
         return {}
+
 
 def build_row_from_json(filepath: str, data: Dict[str, Any]) -> list:
     """
@@ -360,16 +389,24 @@ def build_row_from_json(filepath: str, data: Dict[str, Any]) -> list:
     run_id = get_run_id_from_path(filepath)
 
     # Timestamp: prefer metadata.start_time_seconds; else current UTC ISO
-    start_seconds_raw = safe_get_meta(meta, ("start_time_seconds", "start_time", "start"))
+    start_seconds_raw = safe_get_meta(
+        meta, ("start_time_seconds", "start_time", "start")
+    )
     timestamp_iso = ""
     start_seconds: Optional[float] = None
     try:
         if start_seconds_raw is not None:
             start_seconds = float(start_seconds_raw)
-            timestamp_iso = datetime.fromtimestamp(start_seconds, tz=timezone.utc).isoformat().replace("+00:00", "Z")
+            timestamp_iso = (
+                datetime.fromtimestamp(start_seconds, tz=timezone.utc)
+                .isoformat()
+                .replace("+00:00", "Z")
+            )
         else:
             # fallback to current UTC
-            timestamp_iso = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+            timestamp_iso = (
+                datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+            )
     except Exception:
         timestamp_iso = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
@@ -383,7 +420,13 @@ def build_row_from_json(filepath: str, data: Dict[str, Any]) -> list:
     # Parse hyperparams: try JSON keys first, then command line
     # Known hyperparameter keys to look for (normalize both hyphen and underscore)
     hyper_keys = {
-        "DRL Algorithm Used": ("algorithm", "alg", "drl_algorithm", "behavior_name", "behavior"),
+        "DRL Algorithm Used": (
+            "algorithm",
+            "alg",
+            "drl_algorithm",
+            "behavior_name",
+            "behavior",
+        ),
         "batch_size": ("batch_size", "batch-size", "batchsize"),
         "buffer_size": ("buffer_size", "buffer-size", "buffersize", "buffer"),
         "learning_rate": ("learning_rate", "learning-rate", "lr"),
@@ -414,10 +457,14 @@ def build_row_from_json(filepath: str, data: Dict[str, Any]) -> list:
                 break
 
     # 2) If command_line_arguments present in metadata, parse heuristically.
-    cmdline = meta.get("command_line_arguments") or meta.get("command_line") or meta.get("cmd")
+    cmdline = (
+        meta.get("command_line_arguments")
+        or meta.get("command_line")
+        or meta.get("cmd")
+    )
     if cmdline and isinstance(cmdline, str):
         try:
-            
+
             parsed_args = parse_command_line_args_string(cmdline)
         except Exception:
             parsed_args = {}
@@ -539,7 +586,9 @@ def build_row_from_json(filepath: str, data: Dict[str, Any]) -> list:
 
     return row_values
 
+
 # ---------------- CSV file handling ----------------
+
 
 def ensure_output_file():
     """Ensure output directory exists and the CSV file exists with headers if needed."""
@@ -549,6 +598,7 @@ def ensure_output_file():
         with open(OUTPUT_FILE, "w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
             writer.writerow(HEADERS)
+
 
 def append_row_to_csv(row: list):
     """Append a single row to CSV file (assumes headers present or created)."""
@@ -560,7 +610,9 @@ def append_row_to_csv(row: list):
         writer = csv.writer(f)
         writer.writerow(row)
 
+
 # ---------------- Entry point ----------------
+
 
 def main(argv):
     if len(argv) != 2:
@@ -585,6 +637,7 @@ def main(argv):
     ensure_output_file()
     append_row_to_csv(row)
     print(f"Appended run '{get_run_id_from_path(path)}' to {OUTPUT_FILE}")
+
 
 if __name__ == "__main__":
     main(sys.argv)
