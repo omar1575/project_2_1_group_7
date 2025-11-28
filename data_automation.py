@@ -33,11 +33,8 @@ except Exception:
 
 # --- Configuration ---
 OUTPUT_DIR = "Data"
-<<<<<<< Updated upstream
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "max.csv")
-=======
-OUTPUT_FILE = os.path.join(OUTPUT_DIR, "robert.csv")
->>>>>>> Stashed changes
+
 
 # Exact headers (in the exact order required)
 HEADERS = [
