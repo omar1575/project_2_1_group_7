@@ -1,24 +1,24 @@
 behaviors:
   3DBall:
-    trainer_type: ppo
+    checkpoint_interval: 50000
     hyperparameters:
-      batch_size: 64
-      buffer_size: 12000
-      learning_rate: 0.0003
-      beta: 0.001
-      epsilon: 0.2
+      batch_size: 1
+      beta: 0.0012
+      buffer_size: 9700
+      epsilon: 0.1
       lambd: 0.99
-      num_epoch: 3
+      learning_rate: 0.0001
       learning_rate_schedule: linear
+      num_epoch: 3
+    max_steps: 500000
     network_settings:
-      normalize: true
       hidden_units: 128
+      normalize: true
       num_layers: 1
     reward_signals:
       extrinsic:
         gamma: 0.99
         strength: 1.0
-    checkpoint_interval: 50000
-    max_steps: 500000
-    time_horizon: 1000
     summary_freq: 12000
+    time_horizon: 1000
+    trainer_type: ppo
