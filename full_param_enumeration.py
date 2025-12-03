@@ -6,9 +6,6 @@ import time
 CONFIG_PATH = "Config/training_config.yaml"
 ENV_PATH = "3DBall_environment/UnityEnvironment.exe"
 
-# ---------------------------
-# PARAMETER RANGES (REDUCED)
-# ---------------------------
 params = {
     "batch_size": list(range(1, 129, 13))[:10],     # 10 iterations
     "buffer_size": list(range(100, 24001, 2400))[:10],  # 10 iterations
@@ -20,9 +17,6 @@ params = {
 keys = list(params.keys())
 values = list(params.values())
 
-# ---------------------------
-# Loop over all combinations
-# ---------------------------
 for combo in itertools.product(*values):
     combo_dict = dict(zip(keys, combo))
 
