@@ -5,6 +5,8 @@ import pandas as pd
 output_file = "Data/Data.csv"
 root_dir = "Data/."
 
+exclude_files = ["ivan.csv"]
+
 
 if __name__ == '__main__':
 
@@ -13,7 +15,7 @@ if __name__ == '__main__':
 
     for path, dirs, files in os.walk(root_dir):
         for filename in files:
-            if filename.lower().endswith(".csv"):
+            if filename.lower().endswith(".csv") and filename.lower() not in exclude_files:
                 full_path = os.path.join(path, filename)
 
                 if os.path.abspath(output_path) == os.path.abspath(full_path):
