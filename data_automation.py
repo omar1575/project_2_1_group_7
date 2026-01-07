@@ -21,6 +21,8 @@ import sys
 import platform
 import subprocess
 import yaml
+import config
+import test_config
 import itertools  # used inside parse; safe to import local here
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
@@ -32,8 +34,9 @@ except Exception:
     psutil = None  # type: ignore
 
 # --- Configuration ---
+test_config.test()
 OUTPUT_DIR = "Data"
-OUTPUT_FILE = os.path.join(OUTPUT_DIR, "Moritz_Data.csv")
+OUTPUT_FILE = os.path.join(OUTPUT_DIR, config.SETTINGS["DATA_FILENAME"] + ".csv")
 
 
 # Exact headers (in the exact order required)
