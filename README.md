@@ -166,8 +166,7 @@ tensorboard --logdir results
 
 ## 10. Reproducibility
 - **Unity version** fixed at 2022.3.4f1  
-- **Python version** fixed at 3.10.11  
-- **ML-Agents** installed from local sources in this repo  
+- **Python version** fixed at 3.10.11    
 - **Configs** (`Config/`) contain exact hyperparameters  
 - **Results and raw data** stored with run IDs  
 
