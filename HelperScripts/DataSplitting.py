@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 
 
 FOLDER = "Data/"
-data_names = ["max.csv", "Moritz_Data.csv", "omar.csv", "robert.csv"]
+data_names = ["max.csv", "Moritz_Data.csv", "omar.csv", "robert.csv", "rasto.csv"]
 exclude_columns = ["run_id","timestamp", "DRL Algorithm Used"]
 
 def normal_split(test_size:float):
@@ -25,6 +25,3 @@ def startified_split(test_size:float):
         df_test = pd.concat([df_test, split[1]])
     return [df_train, df_test]
 
-
-
-print(startified_split(0.33))
