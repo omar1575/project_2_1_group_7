@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_absolute_error
 
-data_file = "Data/omar.csv"
+data_file = "Data/Data.csv"
 
 # Load and preprocess data
 data = pd.read_csv(data_file).drop(columns=['run_id', 'timestamp'], errors='ignore')
@@ -23,7 +23,7 @@ data_encoded = pd.get_dummies(data)
 data_encoded = data_encoded.loc[:, data_encoded.nunique() > 1].fillna(0)
 
 # Split data into features and targets
-target_cols = ['Time Elapsed/s', '3DBall.Environment.CumulativeReward.mean']
+target_cols = ['time_elapased_seconds', 'cumulative_reward_mean']
 X = data_encoded.drop(columns=target_cols).values
 y = data_encoded[target_cols].values
 
@@ -46,7 +46,8 @@ preds = sc_y.inverse_transform(model.predict(X_test))
 # Evaluate model performance using Mean Absolute Error
 mae = mean_absolute_error(y_test, preds, multioutput='raw_values')
 
-print(f"OVERALL ERROR -> Time: {mae[0]:.2f}s | Perf: {mae[1]:.2f} pts\n")
 print("FULL TEST SET PREDICTIONS (Time, Perf):")
 for i in range(len(y_test)):
     print(f"Row {i+1}: Pred {np.round(preds[i], 2)} | Actual {np.round(y_test[i], 2)}")
+
+print(f"OVERALL ERROR -> Time: {mae[0]:.2f}s | Perf: {mae[1]:.2f} pts\n")
