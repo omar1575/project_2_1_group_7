@@ -55,24 +55,35 @@ The repository provides:
 ```
 project_2_1_group_7/
 │
+├── 3DBall_environment/      # 3D Ball ML-Agents environment 
+│
 ├── Config/                  # Training and project configs
 │   ├── training_config.yaml
 │   └── project_config.yaml
 │
-├── Data/
-│   └── RawData/             # Run logs and collected metrics
+├── Data/                    # CSV files storing training configs + their respective results
+│   
+├── HelperScripts/           # Utility scripts for ML-Agents data collection + dataset preparation
+│   ├── AutomaticDataCollection.py
+│   ├── CombineCSV.py
+│   ├── data_automation.py
+│   ├── DataSplitting.py
+│   └── HyperParameterEnumeration.py
 │
-├── Models/                  # Trained models and checkpoints
+├── ml_models/               # ML-Models for predictions
+│   └── MLPRegressor.py
 │
 ├── ml-agents-toolkit/       # ML-Agents source (Unity + Python)
 │   ├── Project/             # Unity project (preferred for training)
 │   ├── com.unity.ml-agents
 │   └── com.unity.ml-agents.extensions
 │
-├── Project/                 # Another Unity project (tutorials/examples)
+├── ProjectSettings/         # Project-wide configuration in YAML assets
 │
-├── requirements.txt         # Python dependencies
-└── README.md                # This file
+├── results/                 # Training runs output
+│
+├── README.md                # This file
+└── requirements.txt         # Python dependencies
 ```
 
 ---
