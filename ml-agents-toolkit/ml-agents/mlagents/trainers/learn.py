@@ -145,7 +145,7 @@ def run_training(run_seed: int, options: RunOptions, num_areas: int) -> None:
         try:
             import subprocess
             import sys
-            auto_script = os.path.join(os.getcwd(), "auto_setup.py")
+            auto_script = os.path.join(os.getcwd(), "HelperScripts/AutomaticDataCollection.py")
             if os.path.exists(auto_script):
                 subprocess.run([sys.executable, auto_script], check=True)
             else:

@@ -25,7 +25,3 @@ def startified_split(test_size:float):
 
 
 print(startified_split(0.33))
-
-
-
-

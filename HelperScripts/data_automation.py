@@ -22,7 +22,6 @@ import platform
 import subprocess
 import yaml
 import config
-import test_config
 import itertools  # used inside parse; safe to import local here
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
@@ -34,7 +33,17 @@ except Exception:
     psutil = None  # type: ignore
 
 # --- Configuration ---
-test_config.test()
+REQUIRED_SETTINGS = ["DATA_FILENAME"]
+
+# Testing the config for validity, ie. no missing params
+missing = []
+for key in REQUIRED_SETTINGS:
+    if key not in config.SETTINGS or not config.SETTINGS[key]:
+        missing.append(key)
+
+if missing:
+    raise RuntimeError(f"Missing config keys: {missing}")
+
 OUTPUT_DIR = "Data"
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, config.SETTINGS["DATA_FILENAME"] + ".csv")
 

@@ -22,7 +22,7 @@ latest_json = max(json_candidates, key=os.path.getmtime)
 print(f"Found latest timer file: {latest_json}")
 
 # Run data automation script on it
-data_automation_script = os.path.join(os.getcwd(), "data_automation.py")
+data_automation_script = os.path.join(os.getcwd(), "HelperScripts/data_automation.py")
 if not os.path.exists(data_automation_script):
     print(f"Error: {data_automation_script} not found.")
     sys.exit(1)
