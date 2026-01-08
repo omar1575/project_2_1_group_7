@@ -52,13 +52,13 @@ OUTPUT_FILE = os.path.join(OUTPUT_DIR, config.SETTINGS["DATA_FILENAME"] + ".csv"
 HEADERS = [
     "run_id",
     "timestamp",
-    "CPU Model",
-    "CPU Cores",
-    "CPU Frequency",
-    "Total RAM",
-    "GPU Model",
-    "Operating System",
-    "DRL Algorithm Used",
+    "cpu_model",
+    "cpu_cores",
+    "cpu_frequency",
+    "total_ram",
+    "gpu_model",
+    "operating_system",
+    "drl_algorithm",
     "batch_size",
     "buffer_size",
     "learning_rate",
@@ -72,8 +72,8 @@ HEADERS = [
     "gamma",
     "max_steps",
     "time_horizon",
-    "3DBall.Environment.CumulativeReward.mean",
-    "Time Elapsed/s",
+    "cumulative_reward_mean",
+    "time_elapased_seconds",
 ]
 
 # ---------------- Placeholder / system query helpers ----------------
