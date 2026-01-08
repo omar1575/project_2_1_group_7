@@ -1,12 +1,10 @@
 import os
 import pandas as pd
 
-
 output_file = "Data/Data.csv"
 root_dir = "Data/."
 
-exclude_files = ["ivan.csv"]
-
+exclude_files = []
 
 if __name__ == '__main__':
 
