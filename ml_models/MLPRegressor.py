@@ -28,17 +28,22 @@ X = data_encoded.drop(columns=target_cols).values
 y = data_encoded[target_cols].values
 
 # 80% train, 20% test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+# Scaling features and targets to feed normalized data to the MLP
 sc_X, sc_y = StandardScaler(), StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 y_train_s = sc_y.fit_transform(y_train)
 
+# Define and train MLP Regressor model
 model = MLPRegressor(hidden_layer_sizes=(256, 128, 64), max_iter=5000, early_stopping=True, random_state=42)
 model.fit(X_train, y_train_s)
 
+# Prediction and inverse scaling
 preds = sc_y.inverse_transform(model.predict(X_test))
+
+# Evaluate model performance using Mean Absolute Error
 mae = mean_absolute_error(y_test, preds, multioutput='raw_values')
 
 print(f"OVERALL ERROR -> Time: {mae[0]:.2f}s | Perf: {mae[1]:.2f} pts\n")
