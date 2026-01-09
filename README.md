@@ -95,10 +95,10 @@ project_2_1_group_7/
 ```bash
 git clone <this-repo-url>
 cd project_2_1_group_7
-python -m venv venv
-./venv/Scripts/activate
-pip install --upgrade pip
-pip install -r requirements.txt
+py -3.10 -m venv venv
+.\venv\Scripts\activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
 ### Install Unity
@@ -109,12 +109,14 @@ pip install -r requirements.txt
 ---
 
 ## 7. Quickstart: Train 3DBall
+Open **Unity Hub** → Add project → select `ml-agents-toolkit/Project` 
+Select project → Assets → ML-Agents → Examples → Scenes → 3DBall.unity
 With the virtual environment activated:
 ```bash
 mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-scale=20 --no-graphics
 ```
 
-Open Unity project (`ml-agents-toolkit/Project`), press **Play**, and the agent will start training.  
+Inside the Unity project (`ml-agents-toolkit/Project`), press **Play**, and the agent will start training.  
 
 Outputs:  
 - **Results**: `results/3dball-quickstart/` (TensorBoard + checkpoints)  
@@ -137,12 +139,7 @@ tensorboard --logdir results
    py -3.10 -m venv venv
    venv\Scripts\activate
    ```
-4. Install libraries:  
-   ```bash
-   python -m pip install ./ml-agents-envs
-   python -m pip install ./ml-agents
-   ```
-
+   
 ### Running
 1. Open **Unity Hub** → Add project → select `ml-agents-toolkit/Project`.  
 2. Open the project and select the scene you want to train.  
@@ -199,7 +196,10 @@ To reproduce any run:
 - **`pip` build fails** → ensure VS2022 + C++ workload installed  
 - **`mlagents-learn` not found** → re-activate venv, reinstall requirements  
 - **Unity packages missing** → verify you opened `ml-agents-toolkit/Project`  
-- **Corrupted Unity cache** → try deleting `Library/` and reopening project  
+- **Corrupted Unity cache** → try deleting `Library/` and reopening project
+- **PowerShell may block virtual environment activation on windows for security reasons** → enable powershell to run local scripts without signatures, while scripts from the internet must be signed by a trusted publisher
+- **Package installation failure on windows (path length limits)** → try moving the project folder to a different directory (`C:\dev`)
+- 
 
 ---
 
