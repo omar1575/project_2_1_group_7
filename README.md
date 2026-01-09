@@ -29,11 +29,12 @@ The repository provides:
 3. [Setup](#6-setup)  
 4. [Quickstart: Train 3DBall](#7-quickstart-train-3dball)  
 5. [How to Train Your Own Model](#8-how-to-train-your-own-model)  
-6. [Data Collection](#9-data-collection)  
-7. [Reproducibility](#10-reproducibility)  
-8. [Deliverables](#11-deliverables)  
-9. [Troubleshooting](#12-troubleshooting)  
-10. [License](#13-license)  
+6. [Data Collection](#9-data-collection)
+7. [Predictive Models](#10-predictive-models) 
+8. [Reproducibility](#11-reproducibility)  
+9. [Deliverables](#12-deliverables)  
+10. [Troubleshooting](#13-troubleshooting)  
+11. [License](#14-license)
 
 ---
 
@@ -109,9 +110,9 @@ python -m pip install -r requirements.txt
 ---
 
 ## 7. Quickstart: Train 3DBall
-Open **Unity Hub** → Add project → select `ml-agents-toolkit/Project` 
+- Open **Unity Hub** → Add project → select `ml-agents-toolkit/Project` 
 → Select project → Assets → ML-Agents → Examples → Scenes → 3DBall.unity
-With the virtual environment activated:
+- With the virtual environment activated:
 ```bash
 mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-scale=20 --no-graphics
 ```
@@ -177,13 +178,31 @@ python HelperScripts/HyperParameterEnumeration.py
 - Dataset Update: `HelperScripts/data_automation.py` then appends the single row it created to `Data/<DATA_FILENAME>.csv`, adding column headers if required.
 
 ### Dataset Merge
-- Once ready, `HelperScripts/CombineCSV.py` merges all CSVs under `Data/` into `Data/Data.csv`.
+Once ready, all CSVs can be merged under `Data/` into `Data/Data.csv`.
 
+Run:
+```bash
+python HelperScripts/CombineCSV.py
+```
 
-   
 ---
 
-## 10. Reproducibility
+## 10. Predictive Models
+After data collection is completed, ML models are trained on the merged dataset to predict training time and performance from hyperparameters + hardware specs.
+- Common setup:
+-- Dataset: `Data/Data.csv`
+
+### MLP Regressor (time + performance)
+- File: `ml_models/MLPRegressor.py`
+- Targets: `time_elapased_seconds`, `cumulative_reward_mean`
+- Preprocessing: drop `run_id`/`timestamp`, convert numeric strings to numeric types, one‑hot encode categoricals, fill missing values with 0, standardize features/targets
+- Run
+```bash
+python ml_models/MLPRegressor.py
+```
+
+---
+## 11. Reproducibility
 - **Unity version** fixed at 2022.3.4f1  
 - **Python version** fixed at 3.10.11    
 - **Configs** (`Config/`) contain exact hyperparameters  
@@ -196,7 +215,7 @@ To reproduce any run:
 
 ---
 
-## 11. Deliverables
+## 12. Deliverables
 - `/docs` → extended documentation, setup notes  
 - `/report` → final scientific-style report (PDF + source)  
 - `/slides` → midway and final presentation slides  
@@ -204,17 +223,17 @@ To reproduce any run:
 
 ---
 
-## 12. Troubleshooting
+## 13. Troubleshooting
 - **`pip` build fails** → ensure VS2022 + C++ workload installed  
 - **`mlagents-learn` not found** → re-activate venv, reinstall requirements  
 - **Unity packages missing** → verify you opened `ml-agents-toolkit/Project`  
 - **Corrupted Unity cache** → try deleting `Library/` and reopening project
 - **PowerShell may block virtual environment activation on windows for security reasons** → enable powershell to run local scripts without signatures, while scripts from the internet must be signed by a trusted publisher
 - **Package installation failure on windows (path length limits)** → try moving the project folder to a different directory (`C:\dev`)
-- 
+
 
 ---
 
-## 13. License
+## 14. License
 - ML-Agents upstream license → see `ml-agents-toolkit/`  
 - This repository’s license → see `LICENSE`  
