@@ -110,7 +110,7 @@ python -m pip install -r requirements.txt
 
 ## 7. Quickstart: Train 3DBall
 Open **Unity Hub** → Add project → select `ml-agents-toolkit/Project` 
-Select project → Assets → ML-Agents → Examples → Scenes → 3DBall.unity
+→ Select project → Assets → ML-Agents → Examples → Scenes → 3DBall.unity
 With the virtual environment activated:
 ```bash
 mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-scale=20 --no-graphics
@@ -139,8 +139,8 @@ tensorboard --logdir results
    py -3.10 -m venv venv
    venv\Scripts\activate
    ```
-   
-### Running
+
+### Manual Training
 1. Open **Unity Hub** → Add project → select `ml-agents-toolkit/Project`.  
 2. Open the project and select the scene you want to train.  
 3. In the terminal (`ml-agents-toolkit/`):  
@@ -158,6 +158,16 @@ tensorboard --logdir results
    ```
    → View at http://localhost:6006  
 
+### Automated Training
+Runs multiple `mlagents-learn` trainings by sweeping hyperparameters without opening a GUI window
+
+- Script: `HelperScripts/HyperParameterEnumeration.py`
+- What it does: enumerates ranges, rewrites `Config/training_config.yaml`, runs `mlagents-learn` with `3DBall_environment/UnityEnvironment.exe` and `--no-graphics`
+
+Run:
+```bash
+python HelperScripts/HyperParameterEnumeration.py
+```
 ---
 
 ## 9. Data Collection
@@ -169,6 +179,8 @@ tensorboard --logdir results
 ### Dataset Merge
 - Once ready, `HelperScripts/CombineCSV.py` merges all CSVs under `Data/` into `Data/Data.csv`.
 
+
+   
 ---
 
 ## 10. Reproducibility
