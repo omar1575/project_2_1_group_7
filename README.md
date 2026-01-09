@@ -85,7 +85,8 @@ project_2_1_group_7/
 ├── results/                 # Training runs output
 │
 ├── README.md                # This file
-└── requirements.txt         # Python dependencies
+├── requirements.txt         # Python dependencies
+└── who_did_what.md          # Overview of task distribution
 ```
 
 ---
@@ -213,8 +214,8 @@ To reproduce any run manually:
 2. Run `mlagents-learn` with the same config + run ID  
 3. Open Unity project, click Play  
 
-To reproduce any run automatically:
-1. Run with the same config and run + ID
+To reproduce any sequence of runs automatically:
+1. Run `HyperParameterEnumeration.py` with the same ranges, config path, and environment.
     
 ---
 
