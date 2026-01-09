@@ -169,6 +169,8 @@ Run:
 ```bash
 python HelperScripts/HyperParameterEnumeration.py
 ```
+
+This will ask you to input the starting value, the ending value and the step size for each of the hyperparameters that can be altered in the DRL training. If you do not want to change the value, put the same start and end value and any step size.
 ---
 
 ## 9. Data Collection
