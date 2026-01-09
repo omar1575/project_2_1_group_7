@@ -111,7 +111,7 @@ python -m pip install -r requirements.txt
 
 ## 7. Quickstart: Train 3DBall
 - Open **Unity Hub** → Add project → select `ml-agents-toolkit/Project` 
-→ Select project → Assets → ML-Agents → Examples → Scenes → 3DBall.unity
+- Select project → Assets → ML-Agents → Examples → Scenes → 3DBall.unity
 - With the virtual environment activated:
 ```bash
 mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-scale=20 --no-graphics
@@ -208,11 +208,14 @@ python ml_models/MLPRegressor.py
 - **Configs** (`Config/`) contain exact hyperparameters  
 - **Results and raw data** stored with run IDs  
 
-To reproduce any run:  
+To reproduce any run manually:  
 1. Activate venv  
 2. Run `mlagents-learn` with the same config + run ID  
 3. Open Unity project, click Play  
 
+To reproduce any run automatically:
+1. Run with the same config and run + ID
+    
 ---
 
 ## 12. Deliverables
@@ -228,8 +231,8 @@ To reproduce any run:
 - **`mlagents-learn` not found** → re-activate venv, reinstall requirements  
 - **Unity packages missing** → verify you opened `ml-agents-toolkit/Project`  
 - **Corrupted Unity cache** → try deleting `Library/` and reopening project
-- **PowerShell may block virtual environment activation on windows for security reasons** → enable powershell to run local scripts without signatures, while scripts from the internet must be signed by a trusted publisher
-- **Package installation failure on windows (path length limits)** → try moving the project folder to a different directory (`C:\dev`)
+- **PowerShell blocking virtual environment activation on windows for security reasons** → enable powershell to run local scripts without signatures, while scripts from the internet must be signed by a trusted publisher
+- **Package installation failure on Windows (path length limits)** → try moving the project folder to a different directory (`C:\dev`)
 
 
 ---
