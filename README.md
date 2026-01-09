@@ -59,6 +59,7 @@ project_2_1_group_7/
 │
 ├── Config/                  # Training and project configs
 │   ├── training_config.yaml
+│   ├── standart_config.yaml
 │   └── project_config.yaml
 │
 ├── Data/                    # CSV files storing training configs + their respective results
@@ -163,15 +164,13 @@ tensorboard --logdir results
 ---
 
 ## 9. Data Collection
-- Hardware (RAM/CPU/GPU) and timing metrics are logged per run in:  
-  ```
-  Data/RawData/
-  ```
-- Settings are defined in:  
-  ```
-  Config/project_config.yaml
-  ```
-  under `hardware_tracking` and `data_collection`.
+- Source of Data: ML-Agents writes a timer JSON per run at `results/<run-id>/run_logs/timers.json`, which is the raw input for data collection.
+- Data Collection: `HelperScripts/AutomaticDataCollection.py` finds the newest `results/<run-id>/run_logs/timers.json` and runs `HelperScripts/data_automation.py`.
+- Data Processing: `HelperScripts/data_automation.py` processes the raw information and builds one consolidated row with hardware specs + hyperparameters + metrics (includes `cumulative_reward_mean` and `time_elapased_seconds`).
+- Dataset Update: `HelperScripts/data_automation.py` then appends the single row it created to `Data/<DATA_FILENAME>.csv`, adding column headers if required.
+
+### Dataset Merge
+- Once ready, `HelperScripts/CombineCSV.py` merges all CSVs under `Data/` into `Data/Data.csv`.
 
 ---
 
