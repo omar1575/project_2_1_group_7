@@ -73,7 +73,9 @@ project_2_1_group_7/
 │   └── HyperParameterEnumeration.py
 │
 ├── ml_models/               # ML-Models for predictions
-│   └── MLPRegressor.py
+│  ├── MLPRegressor.py
+│  ├── CatBoostRegressor.py
+│  └── preprocess.py
 │
 ├── ml-agents-toolkit/       # ML-Agents source (Unity + Python)
 │   ├── Project/             # Unity project (preferred for training)
@@ -85,6 +87,7 @@ project_2_1_group_7/
 ├── results/                 # Training runs output
 │
 ├── README.md                # This file
+├── RandomForest.ipynb
 ├── requirements.txt         # Python dependencies
 └── who_did_what.md          # Overview of task distribution
 ```
@@ -172,6 +175,7 @@ python HelperScripts/HyperParameterEnumeration.py
 ```
 
 This will ask you to input the starting value, the ending value and the step size for each of the hyperparameters that can be altered in the DRL training. If you do not want to change the value, put the same start and end value and any step size.
+
 ---
 
 ## 9. Data Collection
@@ -193,7 +197,16 @@ python HelperScripts/CombineCSV.py
 ## 10. Predictive Models
 After data collection is completed, ML models are trained on the merged dataset to predict training time and performance from hyperparameters + hardware specs.
 - Common setup:
--- Dataset: `Data/Data.csv`
+  - Dataset: `Data/Data.csv`
+
+### CatBoost Regressor (time + performance)
+- File: `ml_models/CatBoostRegressor.py`
+- Targets: `time_elapased_seconds`, `cumulative_reward_mean`
+- Preprocessing: drop `run_id`/`timestamp`, drop any row with any missing value across all columns, strip units from `cpu_frequency`/`total_ram` and convert to numbers 
+- Run
+```bash
+python ml_models/CatBoostRegressor.py
+```
 
 ### MLP Regressor (time + performance)
 - File: `ml_models/MLPRegressor.py`
@@ -204,7 +217,17 @@ After data collection is completed, ML models are trained on the merged dataset 
 python ml_models/MLPRegressor.py
 ```
 
+### Random Forest Regressor (time + performance)
+- File: `RandomForest.ipynb`
+- Targets: `Time Elapsed/s`, `3DBall.Environment.CumulativeReward.mean`
+- Preprocessing: shuffle all rows and reset the index, drop any row with any missing value across all columns
+- Run
+```bash
+jupyter notebook RandomForest.ipynb
+```
+
 ---
+
 ## 11. Reproducibility
 - **Unity version** fixed at 2022.3.4f1  
 - **Python version** fixed at 3.10.11    
