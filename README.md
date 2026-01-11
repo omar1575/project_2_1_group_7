@@ -1,4 +1,4 @@
-# Project 2-1 Group 7  
+<img width="328" height="23" alt="image" src="https://github.com/user-attachments/assets/113747aa-af0e-4aca-93ee-10f5b59fafab" /># Project 2-1 Group 7  
 **BCS2720: Machine Learning in the Unity Game Engine**
 
 ## 1. Group Members
@@ -88,6 +88,7 @@ project_2_1_group_7/
 │
 ├── README.md                # This file
 ├── RandomForest.ipynb
+├── config.py                # Datafile name setter
 ├── requirements.txt         # Python dependencies
 └── who_did_what.md          # Overview of task distribution
 ```
@@ -116,6 +117,7 @@ python -m pip install -r requirements.txt
 ## 7. Quickstart: Train 3DBall
 - Open **Unity Hub** → Add project → select `ml-agents-toolkit/Project` 
 - Select project → Assets → ML-Agents → Examples → Scenes → 3DBall.unity
+- Then go to the project file `C:\dev\project_2_1_group_7\config.py` and set the DATA_FILENAME as the name of the dataset append the consolidated row to.
 - With the virtual environment activated:
 ```bash
 mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-scale=20 --no-graphics
@@ -259,7 +261,12 @@ To reproduce any sequence of runs automatically:
 - **Corrupted Unity cache** → try deleting `Library/` and reopening project
 - **PowerShell blocking virtual environment activation on windows for security reasons** → enable powershell to run local scripts without signatures, while scripts from the internet must be signed by a trusted publisher
 - **Package installation failure on Windows (path length limits)** → try moving the project folder to a different directory (`C:\dev`)
-
+- **ModuleNotFoundError: No module named 'onnxscript'** → try using an older version of PyTorch which does not use onnxscript, for example:
+```bash
+python -m pip uninstall torch -y
+python -m pip install torch==1.13.1
+```
+- **RuntimeError: Missing config keys: ['DATA_FILENAME']** → make DATA_FILENAME is set, located at `C:\dev\project_2_1_group_7\config.py` 
 
 ---
 
