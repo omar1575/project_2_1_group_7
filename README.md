@@ -243,7 +243,7 @@ To reproduce any run manually:
 `python -m pip install --upgrade pip
 python -m pip install -r requirements.txt`
 
-3. Set a name of the cvs in HelperScripts/config. The default is set to null
+3. Set a name of the cvs in `config.py`. The default is set to null
 
 4. Run `mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-scale=20 --no-graphics` for the first manual traning. Note that for every run you need to have a uniquid `--run-id` otherwise error will pop up.
 
