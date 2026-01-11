@@ -1,0 +1,3 @@
+SETTINGS = {
+    "DATA_FILENAME": None
+}

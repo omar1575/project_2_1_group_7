@@ -21,7 +21,6 @@ import sys
 import platform
 import subprocess
 import yaml
-import config
 import itertools  # used inside parse; safe to import local here
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
@@ -31,6 +30,12 @@ try:
     import psutil
 except Exception:
     psutil = None  # type: ignore
+
+
+current = os.path.dirname(os.path.realpath(__file__))
+parent = os.path.dirname(current)
+sys.path.append(parent)
+import config
 
 # --- Configuration ---
 REQUIRED_SETTINGS = ["DATA_FILENAME"]
