@@ -237,9 +237,22 @@ jupyter notebook RandomForest.ipynb
 - **Results and raw data** stored with run IDs  
 
 To reproduce any run manually:  
-1. Activate venv  
-2. Run `mlagents-learn` with the same config + run ID  
-3. Open Unity project, click Play  
+1. Activate venv by running `.\venv\Scripts\activate` in the terminal, every python script has to be run in venv
+
+2. Make sure that you have installed pip and the requirements. If not use this in the terminal:
+`python -m pip install --upgrade pip
+python -m pip install -r requirements.txt`
+
+3. Set a name of the cvs in HelperScripts/config. The default is set to null
+
+4. Run `mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-scale=20 --no-graphics` for the first manual traning. Note that for every run you need to have a uniquid `--run-id` otherwise error will pop up.
+
+5. Open Unity project, click Play  
+
+6. Wait for traning to finish than check if the data were saved in Data\ your_cvs_name.cvs
+
+To run multiple traning:
+1. Run `HelperScripts/AutomaticDataCollection.py`. Make sure you run the script in venv. 
 
 To reproduce any sequence of runs automatically:
 1. Run `HyperParameterEnumeration.py` with the same ranges, config path, and environment.
@@ -266,7 +279,7 @@ To reproduce any sequence of runs automatically:
 python -m pip uninstall torch -y
 python -m pip install torch==1.13.1
 ```
-- **RuntimeError: Missing config keys: ['DATA_FILENAME']** → make DATA_FILENAME is set, located at `C:\dev\project_2_1_group_7\config.py` 
+- **RuntimeError: Missing config keys: ['DATA_FILENAME']** → make sure DATA_FILENAME is set, located at `C:\dev\project_2_1_group_7\config.py` 
 
 ---
 
