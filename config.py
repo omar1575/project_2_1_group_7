@@ -1,3 +1,3 @@
 SETTINGS = {
-    "DATA_FILENAME": null
+    "DATA_FILENAME": None
 }
