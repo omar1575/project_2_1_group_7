@@ -1,4 +1,4 @@
-<img width="328" height="23" alt="image" src="https://github.com/user-attachments/assets/113747aa-af0e-4aca-93ee-10f5b59fafab" /># Project 2-1 Group 7  
+**Project 2-1 Group 7**  
 **BCS2720: Machine Learning in the Unity Game Engine**
 
 ## 1. Group Members
