@@ -73,8 +73,9 @@ project_2_1_group_7/
 │   └── HyperParameterEnumeration.py
 │
 ├── ml_models/               # ML-Models for predictions
-│  ├── MLPRegressor.py
 │  ├── CatBoostRegressor.py
+│  ├── MLPRegressor.py
+│  ├── RandomForest.ipynb
 │  └── preprocess.py
 │
 ├── ml-agents-toolkit/       # ML-Agents source (Unity + Python)
@@ -87,7 +88,6 @@ project_2_1_group_7/
 ├── results/                 # Training runs output
 │
 ├── README.md                # This file
-├── RandomForest.ipynb
 ├── config.py                # Datafile name setter
 ├── requirements.txt         # Python dependencies
 └── who_did_what.md          # Overview of task distribution
