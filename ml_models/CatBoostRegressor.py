@@ -29,8 +29,8 @@ class CatBoostModel(Model):
         self.models_ = [None, None]
         #Train new model on each target seperately
         for i, y_col_train in enumerate(y_cols):
-            model = CatBoostRegressor(loss_function='RMSE')
-            model.fit(X, y_col_train, verbose=100, cat_features=cat_cols)
+            model = CatBoostRegressor(allow_writing_files = False, loss_function='RMSE')
+            model.fit(X, y_col_train, verbose=False, cat_features=cat_cols)
             self.models_[i] = model
 
 
@@ -59,13 +59,15 @@ if __name__ == "__main__":
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    model = CatBoostModel()
+    # model = CatBoostModel()
+    # model.fit(X_train, y_train)
+    # model.save("CatBoost")
 
-    model.fit(X_train, y_train)
+    model = CatBoostModel.load("CatBoost")
 
     preds = model.predict(X_test)
 
-    model.save("CatBoost")
+    
 
     mse = mean_squared_error(y_test, preds, multioutput='raw_values')
     mae = mean_absolute_error(y_test, preds, multioutput='raw_values')
