@@ -4,7 +4,7 @@ import pandas as pd
 output_file = "Data/Data.csv"
 root_dir = "Data/."
 
-exclude_files = ["ivan.csv"]
+exclude_files = ["ivan.csv", "final_combined_data_l.csv", "x_features.csv", "y_targets.csv", "combined.csv"]
 
 if __name__ == '__main__':
 
