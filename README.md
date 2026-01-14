@@ -243,7 +243,7 @@ To reproduce any run manually:
 `python -m pip install --upgrade pip
 python -m pip install -r requirements.txt`
 
-3. Set a name of the cvs in `config.py`. The default is set to null
+3. Set a name of the cvs in `config.py`. The default is set to None
 
 4. Run `mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-scale=20 --no-graphics` for the first manual traning. Note that for every run you need to have a uniquid `--run-id` otherwise error will pop up.
 
@@ -279,7 +279,8 @@ To reproduce any sequence of runs automatically:
 python -m pip uninstall torch -y
 python -m pip install torch==1.13.1
 ```
-- **RuntimeError: Missing config keys: ['DATA_FILENAME']** → make sure DATA_FILENAME is set, located at `C:\dev\project_2_1_group_7\config.py` 
+- **RuntimeError: Missing config keys: ['DATA_FILENAME']** → make sure DATA_FILENAME is set, located at `C:\dev\project_2_1_group_7\config.py`
+- **ModuleNotFoundError: No module named 'catboost'** → make sure `catboost` is installed by running `python -m pip install catboost`
 
 ---
 
