@@ -4,50 +4,59 @@ MLP Regressor to predict training time and performance from hyperparameters and 
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
-from sklearn.metrics import mean_absolute_error
+from sklearn.preprocessing import StandardScaler
+from MLModel import Model
 
-data_file = "Data/Data.csv"
+class MLPModel(Model):
+    def __init__(self, hidden_layer_sizes: tuple, max_iter: int = 5000, early_stopping: bool = True, random_state: int = 42):
+        super().__init__()
+        self.hidden_layer_sizes = hidden_layer_sizes
+        self.max_iter = max_iter
+        self.early_stopping = early_stopping
+        self.random_state = random_state
 
-# Load and preprocess data
-data = pd.read_csv(data_file).drop(columns=['run_id', 'timestamp'], errors='ignore')
+        self.model_ = None
+        self.scaler_X = None
+        self.scaler_y = None
 
-# Convert object columns with numeric strings to numeric types
-for col in data.columns:
-    if data[col].dtype == 'object' and data[col].astype(str).str.contains(r'\d').any():
-        data[col] = pd.to_numeric(data[col].astype(str).str.replace(r'[a-zA-Z\s]', '', regex=True), errors='coerce')
+    def fit(self, X:pd.DataFrame, y:pd.DataFrame) -> None:
+        X_encoded = pd.get_dummies(X, drop_first=True)
+        X_encoded = X_encoded.loc[:, X_encoded.nunique() > 1]
 
-# One-hot encode categorical variables and handle missing values
-data_encoded = pd.get_dummies(data)
-data_encoded = data_encoded.loc[:, data_encoded.nunique() > 1].fillna(0)
+        self.scaler_X = StandardScaler()
+        self.scaler_y = StandardScaler()
 
-# Split data into features and targets
-target_cols = ['time_elapased_seconds', 'cumulative_reward_mean']
-X = data_encoded.drop(columns=target_cols).values
-y = data_encoded[target_cols].values
+        X_scaled = self.scaler_X.fit_transform(X_encoded)
+        y_scaled = self.scaler_y.fit_transform(y)
 
-# 80% train, 20% test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        self.model_ = MLPRegressor(
+            hidden_layer_sizes=self.hidden_layer_sizes,
+            max_iter=self.max_iter,
+            early_stopping=self.early_stopping,
+            random_state=self.random_state
+        )
+        self.model_.fit(X_scaled, y_scaled)
 
-# Scaling features and targets to feed normalized data to the MLP
-sc_X, sc_y = StandardScaler(), StandardScaler()
-X_train = sc_X.fit_transform(X_train)
-X_test = sc_X.transform(X_test)
-y_train_s = sc_y.fit_transform(y_train)
+        self.feature_columns_ = X_encoded.columns.tolist()
 
-# Define and train MLP Regressor model
-model = MLPRegressor(hidden_layer_sizes=(256, 128, 64), max_iter=5000, early_stopping=True, random_state=42)
-model.fit(X_train, y_train_s)
+    def predict(self, X:pd.DataFrame) -> np.ndarray:
+        if self.model_ is None:
+            raise RuntimeError("Model not fitted yet. Call fit() before predict().")
 
-# Prediction and inverse scaling
-preds = sc_y.inverse_transform(model.predict(X_test))
+        X_encoded = pd.get_dummies(X, drop_first=True)
 
-# Evaluate model performance using Mean Absolute Error
-mae = mean_absolute_error(y_test, preds, multioutput='raw_values')
+        for col in self.feature_columns_:
+            if col not in X_encoded.columns:
+                X_encoded[col] = 0
+        X_encoded = X_encoded[self.feature_columns_]
 
-print("FULL TEST SET PREDICTIONS (Time, Perf):")
-for i in range(len(y_test)):
-    print(f"Row {i+1}: Pred {np.round(preds[i], 2)} | Actual {np.round(y_test[i], 2)}")
+        X_scaled = self.scaler_X.transform(X_encoded)
 
-print(f"OVERALL ERROR -> Time: {mae[0]:.2f}s | Perf: {mae[1]:.2f} pts\n")
+        y_pred_scaled = self.model_.predict(X_scaled)
+        y_pred = self.scaler_y.inverse_transform(y_pred_scaled)
+
+        X_encoded = X_encoded.reindex(columns=self.feature_columns_, fill_value=0)
+
+        y_pred = self.scaler_y.inverse_transform(y_pred_scaled)
+        return y_pred

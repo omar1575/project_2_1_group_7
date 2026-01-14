@@ -1,57 +1,49 @@
 import pandas as pd
+import numpy as np
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
+from MLModel import Model
 
-csv_path = "Data/final_combined_data_L.csv"
-df = pd.read_csv(csv_path)
-df = df.sample(frac=1.0, random_state=17).reset_index(drop=True)
+class RandomForestModel(Model):
+    def __init__(self, n_estimators: int = 100, random_state: int = 42, n_jobs: int = -1, max_depth: int = None):
+        super().__init__()
+        self.n_estimators = n_estimators
+        self.random_state = random_state
+        self.n_jobs = n_jobs
+        self.max_depth = max_depth
+        self.models_ = None
 
-features = [
-    "batch_size",
-    "buffer_size",
-    "learning_rate",
-    "beta",
-    "epsilon",
-    "lambda",
-    "num_epoch",
-    "hidden_units",
-    "num_layers",
-    "gamma",
-    "time_horizon",
-]
+    def fit(self, X:pd.DataFrame, y:pd.DataFrame) -> None:
+        X_encoded = pd.get_dummies(X, drop_first=True)
 
-target_time = "TimeElapsed"
-target_reward = "CumulativeReward"
+        target_cols = ['time_elapased_seconds', 'cumulative_reward_mean']
+        y_time = y[target_cols[0]]
+        y_reward = y[target_cols[1]]
 
-df = df.dropna()
+        self.models_ = []
 
-X = df[features]
-Y_time = df[target_time]
-Y_reward = df[target_reward]
-
-best_time_MSE = 1000000
-best_reward_MSE = 1000000
-
-bestRandomState = -1
-bestEstimatorsNum = -1
-
-for estimators in range(1,500):
-    print("Estimators: ", estimators)
-    
-    X_train, X_test, Y_time_train, Y_time_test, Y_reward_train, Y_reward_test = train_test_split(X, Y_time, Y_reward, test_size=0.2, random_state=17)
-
-    rf_time = RandomForestRegressor(n_estimators=estimators, random_state=17, n_jobs=-1)
-    rf_time.fit(X_train, Y_time_train)
-
-    rf_reward = RandomForestRegressor(n_estimators=estimators, random_state=17, n_jobs=-1)
-    rf_reward.fit(X_train, Y_reward_train)
-
-    rf_time_predictions = rf_time.predict(X_test)
-    rf_reward_predictions = rf_reward.predict(X_test)
-
-    if mean_squared_error(Y_time_test, rf_time_predictions) < best_time_MSE and mean_squared_error(Y_reward_test, rf_reward_predictions) < best_reward_MSE:
-        bestEstimatorsNum = estimators
-
+        rf_time = RandomForestRegressor(n_estimators=self.n_estimators, random_state=self.random_state, n_jobs=self.n_jobs, max_depth=self.max_depth)
+        rf_time.fit(X_encoded, y_time)
+        self.models_.append(rf_time)
         
-print(bestEstimatorsNum)
+        rf_reward = RandomForestRegressor(n_estimators=self.n_estimators, random_state=self.random_state, n_jobs=self.n_jobs, max_depth=self.max_depth)
+        rf_reward.fit(X_encoded, y_reward)
+        self.models_.append(rf_reward)
+
+        self.feature_names_ = X_encoded.columns.tolist()
+
+    def predict(self, X:pd.DataFrame) -> np.ndarray:
+        if self.models_ is None:
+           raise RuntimeError("Model not fitted yet. Call fit() before predict().")
+        
+        X_encoded = pd.get_dummies(X, drop_first=True)
+    
+        for col in self.feature_names_:
+            if col not in X_encoded.columns:
+                X_encoded[col] = 0
+        X_encoded = X_encoded[self.feature_names_]
+
+        predictions = []
+        for model in self.models_:
+            predictions.append(model.predict(X_encoded))
+
+        return np.stack(predictions, axis=1)

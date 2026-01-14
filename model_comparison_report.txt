@@ -1,0 +1,81 @@
+================================================================================
+MODEL COMPARISON REPORT
+================================================================================
+
+Data: Data/Data.csv
+Training samples: 6704
+Test samples: 1677
+Number of features: 20
+Random state: 42
+
+SUMMARY TABLE
+--------------------------------------------------------------------------------
+        Model         Target          MSE       RMSE       MAE       R2
+     CatBoost Time (seconds)  9625.323484  98.108733 17.941708 0.803082
+     CatBoost         Reward    38.345630   6.192385  3.035258 0.970996
+Random Forest Time (seconds)  7030.873877  83.850306 13.581019 0.856160
+Random Forest         Reward    39.298473   6.268849  2.770701 0.970275
+MLP Regressor Time (seconds) 11397.956734 106.761214 25.046016 0.766817
+MLP Regressor         Reward    51.755160   7.194106  3.436354 0.960853
+
+DETAILED RESULTS
+--------------------------------------------------------------------------------
+
+CatBoost
+--------------------------------------------------------------------------------
+
+  Time (seconds):
+    MSE     :  9625.3235
+    RMSE    :    98.1087
+    MAE     :    17.9417
+    R2      :     0.8031
+
+  Reward:
+    MSE     :    38.3456
+    RMSE    :     6.1924
+    MAE     :     3.0353
+    R2      :     0.9710
+
+Random Forest
+--------------------------------------------------------------------------------
+
+  Time (seconds):
+    MSE     :  7030.8739
+    RMSE    :    83.8503
+    MAE     :    13.5810
+    R2      :     0.8562
+
+  Reward:
+    MSE     :    39.2985
+    RMSE    :     6.2688
+    MAE     :     2.7707
+    R2      :     0.9703
+
+MLP Regressor
+--------------------------------------------------------------------------------
+
+  Time (seconds):
+    MSE     : 11397.9567
+    RMSE    :   106.7612
+    MAE     :    25.0460
+    R2      :     0.7668
+
+  Reward:
+    MSE     :    51.7552
+    RMSE    :     7.1941
+    MAE     :     3.4364
+    R2      :     0.9609
+
+
+BEST MODELS BY METRIC
+--------------------------------------------------------------------------------
+
+Time (seconds):
+  Best RMSE: Random Forest (83.8503)
+  Best MAE:  Random Forest (13.5810)
+  Best R²:   Random Forest (0.8562)
+
+Reward:
+  Best RMSE: CatBoost (6.1924)
+  Best MAE:  Random Forest (2.7707)
+  Best R²:   CatBoost (0.9710)

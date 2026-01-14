@@ -4,9 +4,6 @@ import pandas as pd
 import pickle
 from abc import ABC, abstractmethod
 
-
-
-
 class Model(ABC):
     def __init__(self):
         pass
@@ -18,7 +15,6 @@ class Model(ABC):
     @abstractmethod
     def predict(self, X:pd.DataFrame) -> np.ndarray:
         pass
-    
 
     def save(self, name: str) -> None:
         pickle.dump(self, open(name, 'wb'))
@@ -28,4 +24,5 @@ class Model(ABC):
         loaded_model = pickle.load(open(name, 'rb'))
         return loaded_model
     
-
+    def get_name(self) -> str:
+        return self.__class__.__name__
