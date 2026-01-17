@@ -192,10 +192,10 @@ This will ask you to input the starting value, the ending value and the step siz
 - Source of Data: ML-Agents writes a timer JSON per run at `results/<run-id>/run_logs/timers.json`, which is the raw input for data collection.
 - Data Collection: `HelperScripts/AutomaticDataCollection.py` finds the newest `results/<run-id>/run_logs/timers.json` and runs `HelperScripts/data_automation.py`.
 - Data Processing: `HelperScripts/data_automation.py` processes the raw information and builds one consolidated row with hardware specs + hyperparameters + metrics (includes `cumulative_reward_mean` and `time_elapased_seconds`).
-- Dataset Update: `HelperScripts/data_automation.py` then appends the single row it created to `Data/<DATA_FILENAME>.csv`, adding column headers if required.
+- Dataset Update: `HelperScripts/data_automation.py` then appends the single row it created to `Data/<DATA_FILENAME>.csv`, adding column headers if required. Note that `DATA_FILENAME` must be specified beforehand in `config.py`.
 
 ### Dataset Merge
-Once ready, all CSVs can be merged under `Data/` into `Data/Data.csv`.
+Once ready, all team members CSVs can be merged under `Data/` into `Data/Data.csv`.
 
 Run:
 ```bash
