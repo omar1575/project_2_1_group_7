@@ -56,41 +56,49 @@ The repository provides:
 ```
 project_2_1_group_7/
 │
-├── 3DBall_environment/      # 3D Ball ML-Agents environment 
+├── 3DBall_environment/          # 3D Ball ML-Agents environment 
 │
-├── Config/                  # Training and project configs
-│   ├── training_config.yaml
+├── Config/                      # Training and project configs
+│   ├── project_config.yaml
 │   ├── standart_config.yaml
-│   └── project_config.yaml
+│   └── training_config.yaml
 │
-├── Data/                    # CSV files storing training configs + their respective results
+├── Data/                        # CSV files storing training configs + their respective results
 │   
-├── HelperScripts/           # Utility scripts for ML-Agents data collection + dataset preparation
+├── HelperScripts/               # Utility scripts
 │   ├── AutomaticDataCollection.py
 │   ├── CombineCSV.py
-│   ├── data_automation.py
 │   ├── DataSplitting.py
-│   └── HyperParameterEnumeration.py
+│   ├── HyperParameterEnumeration.py
+│   └── data_automation.py
 │
-├── ml_models/               # ML-Models for predictions
-│  ├── CatBoostRegressor.py
-│  ├── MLPRegressor.py
-│  ├── RandomForest.ipynb
-│  └── preprocess.py
+├── ProjectSettings/             # Project-wide configuration in YAML assets
 │
-├── ml-agents-toolkit/       # ML-Agents source (Unity + Python)
-│   ├── Project/             # Unity project (preferred for training)
+├── ml-agents-toolkit/           # ML-Agents source (Unity + Python)
+│   ├── Project/                 # Unity project (preferred for training)
 │   ├── com.unity.ml-agents
 │   └── com.unity.ml-agents.extensions
 │
-├── ProjectSettings/         # Project-wide configuration in YAML assets
+├── ml_models/                   # ML-Models for predictions
+│   ├── CatBoostRegressor.py
+│   ├── MLModel.py
+│   ├── MLPRegressor.py
+│   ├── ModelComparison.py
+│   ├── RandomForest.py
+│   └── preprocess.py
 │
-├── results/                 # Training runs output
+├── results/                     # Training runs output
 │
-├── README.md                # This file
-├── config.py                # Datafile name setter
-├── requirements.txt         # Python dependencies
-└── who_did_what.md          # Overview of task distribution
+├── README.md                    # This file
+├── config.py                    # Datafile name setter
+│
+├── error_distribution.png       # Model comparison
+├── metric_comparison.png        # Model comparison
+├── model_comparison_report.txt  # Model comparison
+├── predictions_vs_actual.png    # Model comparison
+│
+├── requirements.txt             # Python dependencies
+└── who_did_what.md              # Overview of task distribution
 ```
 
 ---
