@@ -209,32 +209,20 @@ After data collection is completed, ML models are trained on the merged dataset 
 - Common setup:
   - Dataset: `Data/Data.csv`
 
-### CatBoost Regressor (time + performance)
-- File: `ml_models/CatBoostRegressor.py`
-- Targets: `time_elapased_seconds`, `cumulative_reward_mean`
-- Preprocessing: drop `run_id`/`timestamp`, drop any row with any missing value across all columns, strip units from `cpu_frequency`/`total_ram` and convert to numbers 
-- Run
+###  ModelComparison.py
+- This file is responsible for loading the dataset, running preprocessing uniformly, splitting train/test sets, training all 3 model types, evaluating their predictions, and writing plots and a report.
+- First, make sure the merged dataset `Data/Data.csv` exists. Then proceed to run:
 ```bash
-python ml_models/CatBoostRegressor.py
+python ml_models/ModelComparison.py
 ```
 
-### MLP Regressor (time + performance)
-- File: `ml_models/MLPRegressor.py`
-- Targets: `time_elapased_seconds`, `cumulative_reward_mean`
-- Preprocessing: drop `run_id`/`timestamp`, convert numeric strings to numeric types, one‑hot encode categoricals, fill missing values with 0, standardize features/targets
-- Run
-```bash
-python ml_models/MLPRegressor.py
-```
-
-### Random Forest Regressor (time + performance)
-- File: `RandomForest.ipynb`
-- Targets: `Time Elapsed/s`, `3DBall.Environment.CumulativeReward.mean`
-- Preprocessing: shuffle all rows and reset the index, drop any row with any missing value across all columns
-- Run
-```bash
-jupyter notebook RandomForest.ipynb
-```
+### Model Definitions
+- The following model classes are only definitions that are imported and used by `ml_models/ModelComparison.py` (not standalone).
+- Targets for all models: `time_elapased_seconds`, `cumulative_reward_mean`
+- Model classes:
+  - `ml_models/CatBoostRegressor.py`
+  - `ml_models/MLPRegressor.py`
+  - `ml_models/RandomForest.py`
 
 ---
 
