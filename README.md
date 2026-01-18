@@ -202,6 +202,8 @@ Run:
 python HelperScripts/CombineCSV.py
 ```
 
+Note that `Data/combined.csv` is a legacy dataset with significantly skewed data and was therefore replaced by `Data/Data.csv` to help mitigate that skew.
+
 ---
 
 ## 10. Predictive Models
