@@ -137,10 +137,11 @@ Outputs:
 - **Results**: `results/3dball-quickstart/`  
 - **Raw data**: `results/3dball-quickstart/run_logs/`  
 
-TensorBoard (optional):  
+TensorBoard: Optional visualization and monitoring during or after training. Run the command from the repo root while the venv is active (use another terminal during training).
 ```bash
 tensorboard --logdir results
 ```
+→ View at http://localhost:6006
 
 ---
 
@@ -167,24 +168,25 @@ tensorboard --logdir results
    mlagents-learn Config/training_config.yaml --run-id=first3DBallRun
    ```
 4. Click **Play** in Unity.  
-5. Monitor results with TensorBoard:  
-   ```bash
-   tensorboard --logdir results
-   ```
-   → View at http://localhost:6006  
-
+ 
 ### Automated Training
-Runs multiple `mlagents-learn` trainings by sweeping hyperparameters without opening a GUI window
+Run multiple `mlagents-learn` trainings by sweeping hyperparameters without opening a GUI window.
 
 - Script: `HelperScripts/HyperParameterEnumeration.py`
 - What it does: enumerates ranges, rewrites `Config/training_config.yaml`, runs `mlagents-learn` with `3DBall_environment/UnityEnvironment.exe` and `--no-graphics`
 
-Run:
+Run from the repo root while venv is active:
 ```bash
 python HelperScripts/HyperParameterEnumeration.py
 ```
 
-This will ask you to input the starting value, the ending value and the step size for each of the hyperparameters that can be altered in the DRL training. If you do not want to change the value, put the same start and end value and any step size.
+This will ask you to input the starting value, ending value, and step size for each of the hyperparameters that can be altered in the DRL training. If you do not want to change the value, put the same start and end value and any step size.
+
+TensorBoard: Optional visualization and monitoring during or after training (manual or automated runs). Run the command from the repo root while the venv is active (use another terminal during training).
+```bash
+tensorboard --logdir results
+```
+→ View at http://localhost:6006
 
 ---
 
@@ -245,7 +247,7 @@ python -m pip install -r requirements.txt
 
 3. Set a base name of the csv file without the extension in `config.py`. The default is set to None
 
-4. Run at the repo root `mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-scale=20 --no-graphics` for the first manual training. Note that for every run you need to have a unique id `--run-id` otherwise error will pop up.
+4. Run at the repo root `mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-scale=20 --no-graphics` for the first manual training. Note that for every run you need to have a unique id `--run-id` otherwise an error will pop up.
 
 5. Open Unity project, click Play  
 
@@ -281,6 +283,7 @@ python -m pip install torch==1.13.1
 ```
 - **RuntimeError: Missing config keys: ['DATA_FILENAME']** → make sure `DATA_FILENAME` inside `config.py` is set.
 - **ModuleNotFoundError: No module named 'catboost'** → make sure `catboost` is installed by running `python -m pip install catboost`
+- **UnityTrainerException: Previous data from this run ID was found** → make sure to use a unique run ID or delete `results/<run-id>` to reuse it.
 
 ---
 
