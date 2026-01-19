@@ -63,7 +63,7 @@ project_2_1_group_7/
 │   ├── standart_config.yaml
 │   └── training_config.yaml
 │
-├── Data/                        # CSV files storing training configs + their respective results
+├── Data/                        # CSV files and data analysis
 │   
 ├── HelperScripts/               # Utility scripts
 │   ├── AutomaticDataCollection.py
@@ -110,7 +110,7 @@ project_2_1_group_7/
 git clone <this-repo-url>
 cd project_2_1_group_7
 py -3.10 -m venv venv
-.\venv\Scripts\activate
+./venv/Scripts/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
@@ -125,8 +125,8 @@ python -m pip install -r requirements.txt
 ## 7. Quickstart: Train 3DBall
 - Open **Unity Hub** → Add project → select `ml-agents-toolkit/Project` 
 - Select project → Assets → ML-Agents → Examples → Scenes → 3DBall.unity
-- Then go to the project file `C:\dev\project_2_1_group_7\config.py` and set the DATA_FILENAME as the name of the dataset append the consolidated row to.
-- With the virtual environment activated:
+- Then edit `config.py` and set `DATA_FILENAME` to the dataset name to append the consolidated row to.
+- With the virtual environment activated, run at the repo root `project_2_1_group_7/`:
 ```bash
 mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-scale=20 --no-graphics
 ```
@@ -134,8 +134,8 @@ mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-sca
 Inside the Unity project (`ml-agents-toolkit/Project`), press **Play**, and the agent will start training.  
 
 Outputs:  
-- **Results**: `results/3dball-quickstart/` (TensorBoard + checkpoints)  
-- **Raw data**: `Data/RawData/` (if enabled)  
+- **Results**: `results/3dball-quickstart/`  
+- **Raw data**: `results/3dball-quickstart/run_logs/`  
 
 TensorBoard (optional):  
 ```bash
@@ -148,23 +148,23 @@ tensorboard --logdir results
 
 ### Additional Installation (Windows)
 1. Install **Python 3.10.11** (if not already installed).  
-2. Open `ml-agents-toolkit/` in the terminal.  
+2. Open the repo root `project_2_1_group_7/` in the terminal.  
 3. Create a virtual environment:  
    ```bash
    py -3.10 -m venv venv
-   venv\Scripts\activate
+   ./venv/Scripts/activate
    ```
 
 ### Manual Training
 1. Open **Unity Hub** → Add project → select `ml-agents-toolkit/Project`.  
 2. Open the project and select the scene you want to train.  
-3. In the terminal (`ml-agents-toolkit/`):  
+3. In the terminal (`project_2_1_group_7/`):  
    ```bash
-   mlagents-learn [config file path] --run-id=[runId]
+   mlagents-learn Config/training_config.yaml --run-id=[runId]
    ```
    Example:  
    ```bash
-   mlagents-learn config/ppo/3DBall.yaml --run-id=first3DBallRun
+   mlagents-learn Config/training_config.yaml --run-id=first3DBallRun
    ```
 4. Click **Play** in Unity.  
 5. Monitor results with TensorBoard:  
@@ -195,7 +195,7 @@ This will ask you to input the starting value, the ending value and the step siz
 - Dataset Update: `HelperScripts/data_automation.py` then appends the single row it created to `Data/<DATA_FILENAME>.csv`, adding column headers if required. Note that `DATA_FILENAME` must be specified beforehand in `config.py`.
 
 ### Dataset Merge
-Once ready, all team members CSVs can be merged under `Data/` into `Data/Data.csv`.
+Once ready, run from the repo root `CombineCSV.py` to create `Data/Data.csv`.
 
 Run:
 ```bash
@@ -213,7 +213,7 @@ After data collection is completed, ML models are trained on the merged dataset 
 
 ###  ModelComparison.py
 - This file is responsible for loading the dataset, running preprocessing uniformly, splitting train/test sets, training all 3 model types, evaluating their predictions, and writing plots and a report.
-- First, make sure the merged dataset `Data/Data.csv` exists. Then proceed to run:
+- First, make sure the merged dataset `Data/Data.csv` exists. Then proceed to run from the repo root:
 ```bash
 python ml_models/ModelComparison.py
 ```
@@ -235,25 +235,27 @@ python ml_models/ModelComparison.py
 - **Results and raw data** stored with run IDs  
 
 To reproduce any run manually:  
-1. Activate venv by running `.\venv\Scripts\activate` in the terminal, every python script has to be run in venv
+1. Activate venv by running `./venv/Scripts/activate` in the terminal, every python script has to be run in venv
 
 2. Make sure that you have installed pip and the requirements. If not use this in the terminal:
-`python -m pip install --upgrade pip
-python -m pip install -r requirements.txt`
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
 
-3. Set a name of the cvs in `config.py`. The default is set to None
+3. Set a base name of the csv file without the extension in `config.py`. The default is set to None
 
-4. Run `mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-scale=20 --no-graphics` for the first manual traning. Note that for every run you need to have a uniquid `--run-id` otherwise error will pop up.
+4. Run at the repo root `mlagents-learn Config/training_config.yaml --run-id=3dball-quickstart --time-scale=20 --no-graphics` for the first manual training. Note that for every run you need to have a unique id `--run-id` otherwise error will pop up.
 
 5. Open Unity project, click Play  
 
-6. Wait for traning to finish than check if the data were saved in Data\ your_cvs_name.cvs
-
-To run multiple traning:
-1. Run `HelperScripts/AutomaticDataCollection.py`. Make sure you run the script in venv. 
-
-To reproduce any sequence of runs automatically:
-1. Run `HyperParameterEnumeration.py` with the same ranges, config path, and environment.
+6. Wait for the training to finish and then check if the data were saved in `Data/<DATA_FILENAME>.csv`
+ 
+To reproduce any sequence of multiple runs automatically:
+1. Run `HyperParameterEnumeration.py` from the repo root with the same ranges, config path, and environment. Make sure you run the script in venv.
+```bash
+python HelperScripts/HyperParameterEnumeration.py
+```
     
 ---
 
@@ -270,14 +272,14 @@ To reproduce any sequence of runs automatically:
 - **`mlagents-learn` not found** → re-activate venv, reinstall requirements  
 - **Unity packages missing** → verify you opened `ml-agents-toolkit/Project`  
 - **Corrupted Unity cache** → try deleting `Library/` and reopening project
-- **PowerShell blocking virtual environment activation on windows for security reasons** → enable powershell to run local scripts without signatures, while scripts from the internet must be signed by a trusted publisher
-- **Package installation failure on Windows (path length limits)** → try moving the project folder to a different directory (`C:\dev`)
+- **PowerShell blocking virtual environment activation on Windows for security reasons** → enable PowerShell to run local scripts without signatures, while scripts from the internet must be signed by a trusted publisher
+- **Package installation failure on Windows (path length limits)** → try moving the project folder to a different directory (`C:/dev`)
 - **ModuleNotFoundError: No module named 'onnxscript'** → try using an older version of PyTorch which does not use onnxscript, for example:
 ```bash
 python -m pip uninstall torch -y
 python -m pip install torch==1.13.1
 ```
-- **RuntimeError: Missing config keys: ['DATA_FILENAME']** → make sure DATA_FILENAME is set, located at `C:\dev\project_2_1_group_7\config.py`
+- **RuntimeError: Missing config keys: ['DATA_FILENAME']** → make sure `DATA_FILENAME` inside `config.py` is set.
 - **ModuleNotFoundError: No module named 'catboost'** → make sure `catboost` is installed by running `python -m pip install catboost`
 
 ---
