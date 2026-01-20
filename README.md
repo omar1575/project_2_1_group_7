@@ -97,8 +97,7 @@ project_2_1_group_7/
 ├── model_comparison_report.txt  # Model comparison
 ├── predictions_vs_actual.png    # Model comparison
 │
-├── requirements.txt             # Python dependencies
-└── who_did_what.md              # Overview of task distribution
+└── requirements.txt             # Python dependencies
 ```
 
 ---
