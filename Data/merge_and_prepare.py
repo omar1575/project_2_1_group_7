@@ -27,12 +27,12 @@ FEATURES = [
     'max_steps',
     'gamma',
     'normalize',
-    # Hardware (Optional - Tree models can use these)
+    
     'CPU Cores',
     'Total RAM'
 ]
 
-# TARGETS (The Outputs)
+
 TARGETS = ['TimeElapsed', 'CumulativeReward']
 
 
@@ -51,7 +51,7 @@ DEFAULTS = {
     'num_epoch': 3,
     'normalize': True,   
     'CPU Cores': 8,     
-    'Total RAM': 16       # Median guess (GB)
+    'Total RAM': 16     
 }
 
 def clean_ram(val):
