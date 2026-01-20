@@ -24,7 +24,7 @@ def clean_money_and_ram(val):
         return 16.0
 
 
-print("🧹 Cleaning data...")
+print(" Cleaning data...")
 if 'Total RAM' in df.columns:
     df['Total RAM'] = df['Total RAM'].apply(clean_money_and_ram)
 
@@ -86,4 +86,4 @@ try:
 except Exception as e:
     print(f" Graphing Error: {e}")
 
-print("\n DONE. Open the images and write your report!")
+print("\n DONE!")
