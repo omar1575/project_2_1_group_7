@@ -63,7 +63,7 @@ project_2_1_group_7/
 │   ├── standart_config.yaml
 │   └── training_config.yaml
 │
-├── Data/                        # Datasets + data analysis scripts/figures
+├── Data/                        # CSVs and data analysis
 │   
 ├── HelperScripts/               # Utility scripts
 │   ├── AutomaticDataCollection.py
@@ -204,25 +204,6 @@ Once ready, run from the repo root `CombineCSV.py` to create `Data/Data.csv`.
 
 ```bash
 python HelperScripts/CombineCSV.py
-```
-
-**Note**
-- `Data/combined.csv` is a legacy merged dataset with significantly skewed data but is still used for data analysis.
-- `Data/Data.csv` is the current merged dataset which aims to mitigate the skewed data distribution for predictive modeling. 
-
-### Data Analysis
-- Input dataset: `Data/combined.csv`
-- Scripts: `Data/process_full_dataset.py`, `Data/analyze_for_report.py`, `Data/generate_barcharts.py`
-- Outputs: `Data/Fig1_Correlation_Matrix.png`, `Data/Fig2_Time_vs_Reward.png`, `Data/Fig3_BatchSize_Impact.png`, `Data/Fig4_BarChart_Layers.png`, `Data/Fig5_BarChart_Units.png`
-
-`Data/process_full_dataset.py` prepares the analysis file `Data/final_combined_data_L.csv` which is then used by `Data/analyze_for_report.py` and `Data/generate_barcharts.py` to generate figures for the report.
-
-To generate the visualizations, run from the repo root while venv is active:
-```bash
-cd Data
-python process_full_dataset.py
-python analyze_for_report.py
-python generate_barcharts.py
 ```
 
 ---
