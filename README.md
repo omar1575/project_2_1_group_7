@@ -235,7 +235,7 @@ python ml_models/ModelComparison.py
 ## 11. Reproducibility
 - **Unity version** fixed at 2022.3.4f1  
 - **Python version** fixed at 3.10.11    
-- **Configs** (`Config/`) contain exact hyperparameters  
+- **Configs** (`Config/training_config.yaml`, `Config/standart_config.yaml`) contain hyperparameters; the file passed to `mlagents-learn` drives training (by default: `Config/training_config.yaml`)  
 - **Results and raw data** stored with run IDs  
 
 To reproduce any run manually:  
