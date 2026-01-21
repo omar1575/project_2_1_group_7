@@ -109,7 +109,6 @@ git clone <this-repo-url>
 cd project_2_1_group_7
 py -3.10 -m venv venv
 ./venv/Scripts/activate
-python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
@@ -239,7 +238,6 @@ To reproduce any run manually:
 
 2. Make sure that you have installed pip and the requirements. If not use this in the terminal:
 ```bash
-python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
