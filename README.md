@@ -32,9 +32,8 @@ The repository provides:
 6. [Data Collection](#9-data-collection)
 7. [Predictive Models](#10-predictive-models) 
 8. [Reproducibility](#11-reproducibility)  
-9. [Deliverables](#12-deliverables)  
-10. [Troubleshooting](#13-troubleshooting)  
-11. [License](#14-license)
+9. [Troubleshooting](#12-troubleshooting)  
+10. [License](#13-license)
 
 ---
 
@@ -261,18 +260,10 @@ To reproduce any sequence of multiple runs automatically:
 ```bash
 python HelperScripts/HyperParameterEnumeration.py
 ```
-    
----
-
-## 12. Deliverables
-- `/docs` → extended documentation, setup notes  
-- `/report` → final scientific-style report (PDF + source)  
-- `/slides` → midway and final presentation slides  
-- `who_did_what.md` → task division (required for submission)  
 
 ---
 
-## 13. Troubleshooting
+## 12. Troubleshooting
 - **`pip` build fails** → ensure VS2022 + C++ workload installed.
 - **`mlagents-learn` not found** → re-activate venv, reinstall requirements.
 - **Unity packages missing** → verify you opened `ml-agents-toolkit/Project`.  
@@ -290,6 +281,6 @@ python -m pip install torch==1.13.1
 
 ---
 
-## 14. License
+## 13. License
 - ML-Agents upstream license → see `ml-agents-toolkit/`  
 - This repository’s license → see `LICENSE`  
