@@ -237,9 +237,9 @@ To reproduce any run manually:
 1. Activate venv by running `./venv/Scripts/activate` in the terminal, every python script has to be run in venv.
 
 2. Make sure that you have installed pip and the requirements. If not use this in the terminal:
-```bash
-python -m pip install -r requirements.txt
-```
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
 
 3. Set a base name of the csv file without the extension in `config.py`. The default is set to `None`.
 
