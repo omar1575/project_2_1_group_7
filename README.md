@@ -20,7 +20,7 @@ The repository provides:
 - Unity + ML-Agents configurations  
 - Scripts for data collection and experiment tracking  
 - Instructions for training models
-- Scripts for predictive modeling  
+- Script for predictive modeling  
 
 ---
 
