@@ -19,7 +19,8 @@ The repository provides:
 - A reproducible environment setup on **Windows**  
 - Unity + ML-Agents configurations  
 - Scripts for data collection and experiment tracking  
-- Instructions for training baseline and custom models  
+- Instructions for training models
+- Scripts for predictive modeling  
 
 ---
 
